@@ -1,3 +1,4 @@
+#普通残差
 Anscombe<-data.frame(
   X =c(10.0, 8.0, 13.0, 9.0, 11.0, 14.0, 6.0, 4.0, 12.0, 7.0, 5.0),
   Y1=c(8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68),
@@ -45,6 +46,43 @@ summary(lm3.sol)
 plot(c(3,20), c(3,13), type="n", xlab = "X", ylab = "Y")
 points(X,Y3)
 abline(lm3.sol)
+
+# example 6.12
+# 对例6.5（Forbes数据）得到回归模型得到的残差做W正态性检验
+y.res<- residuals(lm.sol)
+shapiro.test(y.res)
+Shapiro-Wilk normality test
+
+data:  y.res
+W = 0.54654, p-value = 3.302e-06
+残差不满足正态性假设！怎么看这个数据？
+
+y12.res<-residuals(lm12) #去掉第12样本点（离群值）
+shapiro.test(y12.res)
+
+Shapiro-Wilk normality test
+
+data:  y12.res
+W = 0.92215, p-value = 0.1827
+能够通过正态性检验，因此，去掉第12号样本点还是合理的。
+
+#标准化残差/内学生化残差
+##对于标准化残差，应该有95%的样本点落在区间[-2,2]中。
+##通过标准化残差图，更容易诊断出回归模型是否出现问题。
+rstandard()
+##例6.13
+##计算出例6.6的回归模型后，计算普通残差和标准化残差，并画出相应的散点图。
+
+###画残差图
+y.res<-resid(lm.sol); y.fit<-predict(lm.sol)
+plot(y.res~y.fit)
+####画标准化残差图/内学生化残差
+y.rst<-rstandard(lm.sol)
+plot(y.rst~y.fit)
+
+
+#学生化残差/外学生化残差
+rstudent()
 
 ##误差的独立性
 library(car)

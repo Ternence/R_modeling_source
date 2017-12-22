@@ -17,6 +17,7 @@ Y<-scan()
 lm.sol<-lm(Y~X); summary(lm.sol)
 y.rst<-rstandard(lm.sol); y.fit<-predict(lm.sol)
 plot(y.rst~y.fit)
+abline(0.1,0.5);abline(-0.1,-0.5)
 
 lm.new<-update(lm.sol, sqrt(.)~.); coef(lm.new)
 yn.rst<-rstandard(lm.new); yn.fit<-predict(lm.new)
